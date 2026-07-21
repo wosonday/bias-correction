@@ -10,16 +10,18 @@ class LinearScaling(BiasCorrector):
         self.factor_: float|None = None
 
     @classmethod
-    def variable(cls, variable: str) -> "LinearScaling":
-        """VD: LinearScaling.variable('pr')"""
+    def for_variable(cls, variable: str) -> "LinearScaling":
+        """Ex: LinearScaling.for_variable('pr')"""
         return cls(mode=VARIABLE_REGISTRY[variable].mode)
 
-    def fit(self, obs: np.ndarray, sim_hist: np.ndarray) -> "LinearScaling":
-        self.factor_ = (np.mean(obs) - np.mean(sim_hist) if self.mode is CorrectionMode.ADDITIVE
-                        else np.mean(obs) / np.mean(sim_hist))
+    def fit(self, sim_hist: np.ndarray, obs_hist: np.ndarray) -> "LinearScaling":
+        self.factor_ = (
+            np.mean(obs_hist) - np.mean(sim_hist) if self.mode is CorrectionMode.ADDITIVE
+            else np.mean(obs_hist) / np.mean(sim_hist)
+        )
         return self
 
-    def correct(self, sim: np.ndarray):
+    def correct(self, x: np.ndarray):
         if self.factor_ is None:
             raise ValueError("fit must be called before correct")
-        return sim + self.factor_ if self.mode is CorrectionMode.ADDITIVE else sim * self.factor_
+        return x + self.factor_ if self.mode is CorrectionMode.ADDITIVE else x * self.factor_

@@ -12,9 +12,9 @@ class BiasCorrector(ABC):
     """
 
     @abstractmethod
-    def fit(self, obs: np.ndarray, sim_hist: np.ndarray) -> "BiasCorrector":
-        """Learn the parameter calibration in historical (obs compare with sim_hist)"""
+    def fit(self, sim_hist: np.ndarray, obs_hist: np.ndarray) -> "BiasCorrector":
+        """Learn the parameterobs calibration in historical (obs compare with sim_hist)"""
 
     @abstractmethod
-    def correct(self, sim: np.ndarray) -> np.ndarray:
+    def correct(self, x: np.ndarray) -> np.ndarray:
         """Apply correction for any simulation"""
