@@ -36,10 +36,10 @@ class GammaQuantileMapping(BiasCorrector):
 
     def __init__(self, threshold: float = 1.0):
         self.threshold = threshold
-        self.shape_ref_: float|None = None
-        self.scale_ref_: float|None = None
-        self.shape_target_: float|None = None
-        self.scale_target_: float|None = None
+        self.shape_ref_: float | None = None
+        self.scale_ref_: float | None = None
+        self.shape_target_: float | None = None
+        self.scale_target_: float | None = None
 
     def fit(self, sim_hist: np.ndarray, obs_hist: np.ndarray) -> "GammaQuantileMapping":
         sim_wet = sim_hist[sim_hist >= self.threshold]
